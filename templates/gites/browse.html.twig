@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SearchController!{% endblock %}
+
+{% block body %}
+
+{#First, make sure you have Bootstrap included in your project. You can include it via CDN if it's not already part of your project:
+
+
+<!-- Include Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+Then, you can create a card for each Gite like this:#}
+
+
+<div class="container mt-4">
+    <div class="row">
+        {% for gite in gites %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    {# <img src="path_to_gite_image.jpg" class="card-img-top" alt="Gite Image"> #}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ gite.location }}</h5>
+                        <p class="card-text">Region: {{ gite.region }}</p>
+                        <p class="card-text">Department: {{ gite.department }}</p>
+                        <p class="card-text">City: {{ gite.city }}</p>
+                        {# <p class="card-text">Latitude: {{ gite.latitude }}</p>
+                        <p class="card-text">Longitude: {{ gite.longitude }}</p> #}
+                        <p class="card-text">Pet Fee: {{ gite.petfee }}</p>
+                        <p class="card-text">Surface: {{ gite.HabSurface }} sqm</p>
+                        <p class="card-text">Bedrooms: {{ gite.NoBedrooms }}</p>
+                        <p class="card-text">Beds: {{ gite.NoBeds }}</p>
+                        <p class="card-text">Pet Friendly: {{ gite.PetFriendly ? 'Yes' : 'No' }}</p>
+                        <!-- Add more details as needed -->
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{#<h1>Search Gites</h1>
+
+    {# Render the form 
+    <form method="GET" action="{{ path('app_search') }}">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit">Search</button>
+        {{ form_end(form) }}
+    </form>#}
+    
+{% endblock %}

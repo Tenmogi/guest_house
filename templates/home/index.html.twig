@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to the Gite Reservation Platform{% endblock %}
+
+{% block body %}
+
+<section class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 text-center">
+            <h1>Welcome to the Alpine Gite Reservation Platform</h1>
+                <p class="text-start text-warning fs-4">Discover the charm of personalized escapes with our curated collection of countryside retreats. Whether you seek a tranquil weekend hideaway or a week-long adventure, we present a seamless platform for discovering and booking the perfect gîte, tailored to your preferences.
+                    <br>
+                    <br>
+                    Explore a Diverse Selection of Properties:
+                    Dive into our rich catalog of unique properties, each handpicked to offer a blend of comfort, character, and local allure. From quaint cottages nestled amidst nature to elegant farmhouses steeped in history, find the ideal haven that speaks to your wanderlust.
+                    <br>
+                    <br>
+                    Tailor Your Getaway Experience:
+                    Refine your search effortlessly based on your desired location, amenities, and services. Our intuitive search tools empower you to pinpoint the gîte that aligns perfectly with your vision of an unforgettable escape.
+                    <br>
+                    
+        <a href="{{ path('app_search') }}" class="btn btn-primary mt-3">Search for Gites</a>
+        </div>
+    </div>
+    <!-- Search form -->
+    {# <form action="{{ path('search') }}" method="get">
+        <input type="text" name="query" placeholder="Search for gîtes...">
+        <button type="submit">Search</button>
+    </form> #}
+</section>
+
+{% endblock %}
