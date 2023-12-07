@@ -16,10 +16,7 @@ class Gite
     #[ORM\Column]
     private ?int $id = null;
 
-    // #[ORM\ManyToOne]
-    // #[ORM\JoinColumn(nullable: false)]
-    // private ?Owner $Owner = null;
-
+   
     #[ORM\Column(length: 255)]
     private ?string $location = null;
 
@@ -62,19 +59,11 @@ class Gite
     #[ORM\OneToMany(mappedBy: 'gite', targetEntity: WeeklyRate::class)]
     private Collection $weeklyRates;
 
-   
-
-    // #[ORM\OneToMany(mappedBy: 'gite', targetEntity: Equipment::class)]
-    // private Collection $Equipment;
-
     #[ORM\OneToMany(mappedBy: 'gite', targetEntity: Equipment::class)]
     private Collection $equipment;
 
     #[ORM\OneToMany(mappedBy: 'gite', targetEntity: Service::class)]
     private Collection $services;
-
-    // #[ORM\OneToMany(mappedBy: 'gite', targetEntity: Service::class)]
-    // private Collection $Service;
 
     public function __construct()
     {
@@ -82,10 +71,10 @@ class Gite
         
         $this->weeklyRates = new ArrayCollection();
        
-        // $this->Equipment = new ArrayCollection();
+        
         $this->equipment = new ArrayCollection();
         $this->services = new ArrayCollection();
-        // $this->Service = new ArrayCollection();
+        
     }
 
     public function getId(): ?int
@@ -328,11 +317,5 @@ class Gite
         return $this;
     }
 
-    /**
-     * @return Collection<int, Service>
-     */
-    public function getService(): Collection
-    {
-        return $this->services;
-    }
+   
 }

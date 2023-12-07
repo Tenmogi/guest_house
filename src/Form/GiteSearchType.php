@@ -36,10 +36,10 @@ class GiteSearchType extends AbstractType
         foreach ($options['departments'] as $department) {
             $departments[$department['department']] = $department['department'];
         }
-        // $services = [];
-        // foreach ($options['services'] as $service) {
-        //     $services[$service['name']] = $service['name'];
-        // }
+          $services = [];
+          foreach ($options['services'] as $service) {
+             $services[$service['name']] = $service['name'];
+          }
 
         $builder
         ->add('city', ChoiceType::class, [
@@ -58,22 +58,22 @@ class GiteSearchType extends AbstractType
                 'placeholder' => 'Choose a department',
             ])
 
-        // ->add('services', ChoiceType::class, [
-        //     'choices' => $services,
-        //     'required' => false,
-        //     'placeholder' => 'Select services',
-        //     'multiple' => true,
-        //     'expanded' => false,
-        //     ])
+        ->add('services', ChoiceType::class, [
+            'choices' => $services,
+            'required' => false,
+            'placeholder' => 'Select services',
+            'multiple' => true,
+            'expanded' => true,
+            ])
 
-        //     ->add('equipment', EntityType::class, [
-        //         'class' => Equipment::class,
-        //         'choice_label' => 'name',
-        //         'multiple' => true,
-        //         'expanded' => false, // To render as checkboxes
-        //         'required' => false,
-        //         'placeholder' => 'Select equipment', // Optional: add a placeholder
-        //     ])
+            ->add('equipment', EntityType::class, [
+                'class' => Equipment::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true, // To render as checkboxes
+                'required' => false,
+                'placeholder' => 'Select equipment', 
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Submit'
             ]);
@@ -87,7 +87,8 @@ class GiteSearchType extends AbstractType
                  'cities' => [],
              'regions' => [],
              'departments' => [],
-            // 'services' => [], 
+              'services' => [], 
+             'equipment' => [],
                // 'data_class' => Gite::class,
             ]);
         }

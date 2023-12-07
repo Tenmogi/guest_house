@@ -1,136 +1,145 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello{% endblock %}
+{% block title %}Hello
+{% endblock %}
 
 {% block body %}
 
-{{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}
-<div class="container mt-4">
-    <div class="row">
-        {% for gite in gites %}
-            <div class="col-md-4 mb-3">
-                <div class="card h-100">
-                    {# Placeholder for gite image, replace with actual image if available #}
-                    {# <img src="{{ asset('path/to/default/image.jpg') }}" class="card-img-top" alt="Gite Image"> #}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ gite.location }}</h5>
-                        <p class="card-text">
-                            <strong>Owner:</strong> {{ gite.owner.name }}<br>
-                            <strong>Owner email:</strong> {{ gite.owner.email }}<br>
-                            <strong>Region:</strong> {{ gite.region }}<br>
-                            <strong>Department:</strong> {{ gite.department }}<br>
-                            <strong>City:</strong> {{ gite.city }}<br>
-                            <strong>Surface:</strong> {{ gite.HabSurface }} m²<br>
-                            <strong>Bedrooms:</strong> {{ gite.NoBedrooms }}<br>
-                            <strong>Beds:</strong> {{ gite.NoBeds }}<br>
-                            <strong>Pet Friendly:</strong> {{ gite.PetFriendly ? 'Yes' : 'No' }}<br>
-                            <strong>Weekly Rates:</strong><br>
-{% for weeklyRate in gite.weeklyRates %}
-    Period: {{ weeklyRate.period }}<br>
-    Rate: {{ weeklyRate.rate }}<br>
-{% endfor %}
+	{{ form_start(form) }}
+	{{ form_widget(form) }}
+	{{ form_end(form) }}
+	<div class="container mt-4">
+		<div class="row">
+		{% if gites is not empty %}
+			{% for gite in gites %}
+				<div class="col-md-6 mb-3">
+					<div class="card">					
+						<div class="card-body">
+							<h5 class="card-title">{{ gite.location }}</h5>
 
-<strong>Equipment:</strong><br>
-{% for equipmentItem in gite.equipment %}
-    Name: {{ equipmentItem.name }}<br>
-    {# Type: {{ equipment.type }}<br> #}
-    Extra Cost: {{ equipmentItem.extraCost }}<br>
-    Features:<br>
-    <ul>
-    {% for feature in equipmentItem.features %}
-    <li>{{ feature.name }} - Category: {{ feature.category }}</li>
-    {% endfor %}
-</ul>
-{% endfor %}
-                            {# Additional fields can be added here #}
-                        </p>
-                    </div>
-                    {# <div class="card-footer">
-                        <a href="{{ path('gite_show', {'id': gite.id}) }}" class="btn btn-primary">View Details</a>
-                    </div> #}
-                </div>
-            </div>
-        {% else %}
-        <div class="container mt-4">
-        <div class="row">
-            <div class="col">
-                <p>No gites found.</p>
-            </div>
-            {% endfor %}
-            </div>
-    </div>
-        
-    </div>
-</div>
-{% endblock %}
-{# <div class="container mt-4">
-    <h2>Search for Gites</h2>
-    {{ form_start(searchForm) }}
-        <div class="form-row">
-            <div class="col-10">
-                {{ form_row(searchForm.search, {'attr': {'placeholder': 'Enter city or region', 'class': 'form-control'}}) }}
-            </div> #}
-            {# <div class="col-2">
-                <button type="submit" class="btn btn-primary">Search</button>
-            </div> #}
-        {# </div>
-    {{ form_end(searchForm) }}
 
-     <div class="row mt-3">
-        {% for gite in gites %}
-            <div class="col-md-4 mb-3">
-                <div class="card"> #}
-                    {# {% if gite.image %}
-                        <img src="{{ asset('uploads/gites/' ~ gite.image) }}" class="card-img-top" alt="Gite Image">
+							<!-- Owner Information Card -->
+							<div class="card mb-3">
+								<div class="card-body">
+									<h6 class="card-subtitle mb-2 text-muted">Owner Information</h6>
+									<p class="card-text">
+                                     <div class="row">
+                                     <div class="col">
+										<strong>Owner:</strong>
+										{{ gite.owner.name }}<br>
+										<strong>Owner email:</strong>
+										{{ gite.owner.email }}<br>
+                                        </div>
+                                    </div>
+									</p>
+								</div>
+							</div>
+
+							<!-- Geographical Information Card -->
+							<div class="card mb-3">
+								<div class="card-body">
+									<h6 class="card-subtitle mb-2 text-muted">Geographical Information</h6>
+									<p class="card-text">
+                                    <div class="row">
+                                        <div class="col">
+										<strong>Region:</strong>
+										{{ gite.region }}<br>
+										<strong>Department:</strong>
+										{{ gite.department }}<br>
+										<strong>City:</strong>
+										{{ gite.city }}<br>
+										<strong>Surface:</strong>
+										{{ gite.HabSurface }}
+										m²<br>
+                                        </div>
+                                    </div>
+									</p>
+								</div>
+							</div>
+
+
+							<div class="card mb-3">
+								<div class="card-body">
+									<h6 class="card-subtitle mb-2 text-muted">GitesInformation</h6>
+									<p class="card-text">
+                                    <div class="row">
+                                        <div class="col">
+										<strong>Bedrooms:</strong>
+										{{ gite.NoBedrooms }}<br>
+										<strong>Beds:</strong>
+										{{ gite.NoBeds }}<br>
+										<strong>Pet Friendly:</strong>
+										{{ gite.PetFriendly ? 'Yes' : 'No' }}<br>
+										<strong>Weekly Rates(€):</strong><br>
+										{% for weeklyRate in gite.weeklyRates %}
+											Period:
+											{{ weeklyRate.period }}<br>
+											Rate:
+											{{ weeklyRate.rate }}<br>
+										{% endfor %}
+                                        </div>
+                                    </div>
+									</p>
+								</div>
+							</div>
+
+
+							<!-- Equipment and Services Card -->
+							<div class="card">
+								<div class="card-body">
+									<h6 class="card-subtitle mb-2 text-muted">Equipment and Services</h6>
+									<p class="card-text">
+									{% if includeEquipment %}
+                                     <div class="row">
+                                        <div class="col">
+										<!-- Equipment details -->
+										<strong>Equipment:</strong><br> 
+											{% for equipmentItem in gite.equipment %}
+											Name:{{ equipmentItem.name }}
+											<br>
+											Type:{{ equipmentItem.type }}
+											<br>
+											Extra Cost(€):{{ equipmentItem.extraCost }}
+										
+									{% endfor %}
+                                      </div>
+                                    </div>
+									{% endif %}
+									<div class="row mt-3">
+                <div class="col">
+                    <!-- Services details -->
+					{% if gite.services is not empty %}
+                    <strong>Services:</strong><br>
+                    {% for serviceItem in gite.services %}
+                        Name: {{ serviceItem.name }}<br>
+                        Description: {{ serviceItem.description }}<br>
+                        
                     {% else %}
-                        <img src="{{ asset('path/to/default/image.jpg') }}" class="card-img-top" alt="Default Image">
-                    {% endif %} #}
-                    {# <div class="card-body">
-                        <h5 class="card-title">{{ gite.location }}</h5>
-                        <p class="card-text">Region: {{ gite.region }}</p>
-                        <p class="card-text">Department: {{ gite.department }}</p>
-                        <p class="card-text">City: {{ gite.city }}</p>
-                        <!-- Add more details as needed -->
-                    </div>
-                </div>
-            </div>
-        {% else %}
-            <div class="col">
-                <p>No gites found for the given search criteria.</p>
-            </div>
-        {% endfor %}
-    </div>
-</div> #}
-
-
-{# <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                {{ form_start(form) }}
-                {{ form_widget(form) }}
-                {{ form_end(form) }}
-            </div>
-            <div class="col-md-6">
-                <h2>Search Results</h2>
-                <ul>
-                    {% for gite in filteredGites %}
-                        <li>{{ gite.id }} - {{ gite.location }} - {{ gite.region }}</li>
-                        {# Display other details as needed 
+                        No services available.<br>
                     {% endfor %}
-                </ul>
+					 {% endif %}
+					</div>
             </div>
-        </div>
-    </div> #}
-{#<h1>Search Gites</h1>
+								</p>
+							</div>
+						</div>
 
-    {# Render the form 
-    <form method="GET" action="{{ path('app_search') }}">
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit">Search</button>
-        {{ form_end(form) }}
-    </form>#}
-    
 
+					</div> 
+					</div>
+					</div>
+					{% endfor %}
+				{% else %}
+					<div class="container mt-4">
+						<div class="row">
+							<div class="col">
+								<p>No gites found.</p>
+							</div>
+							
+						</div>
+				</div>
+{% endif %}
+			</div>
+		</div>
+	 {% endblock %} 
+	

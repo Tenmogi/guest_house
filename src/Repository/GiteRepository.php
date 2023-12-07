@@ -61,46 +61,10 @@ class GiteRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findByNumberOfBedrooms($numberOfBedrooms)
-{
-    return $this->createQueryBuilder('g')
-        ->andWhere('g.no_bedrooms >= :numberOfBedrooms')
-        ->setParameter('numberOfBedrooms', $numberOfBedrooms)
-        ->getQuery()
-        ->getResult();
-}
 
-// public function findByCriteria($searchTerm): array
-// {
-//     $queryBuilder = $this->createQueryBuilder('g');
-
-//     if (!empty($searchTerm)) {
-//         $queryBuilder->andWhere('g.city LIKE :searchTerm OR g.region LIKE :searchTerm')
-//                      ->setParameter('searchTerm', '%' . $searchTerm . '%');
-//     }    
-    // if (!empty($criteria['city'])) {
-    //         $queryBuilder->andWhere('g.city = :city')
-    //                      ->setParameter('city', $criteria['city']);
-    //     }
-
-    //     if (!empty($criteria['region'])) {
-    //         $queryBuilder->andWhere('g.region = :region')
-    //                      ->setParameter('region', $criteria['region']);
-    //     }
-
-    //     if (!empty($criteria['department'])) {
-    //         $queryBuilder->andWhere('g.department = :department')
-    //                      ->setParameter('department', $criteria['department']);
-    //     }
-
-        // Add any other criteria and conditions as needed
-
-    //     return $queryBuilder->getQuery()->getResult();
-    // }
-
-
-    public function findBySearchCriteria($criteria)
+    public function findBySearchCriteria(array $criteria)
     {
+        
         $queryBuilder = $this->createQueryBuilder('g');
        
 
@@ -117,24 +81,33 @@ class GiteRepository extends ServiceEntityRepository
                 ->setParameter('department', $criteria['department']);
         }
         if (!empty($criteria['services'])) {
+            
+            $serviceRepository = $this->getEntityManager()->getRepository(\App\Entity\Service::class);
+            // Convert service names to IDs
+            // $serviceNames = $criteria['services'];
+            // $serviceIds = $serviceRepository->findIdsByNames($serviceNames);
+            $serviceIds = $serviceRepository->findIdsByNames($criteria['services']);
+
             $queryBuilder->leftJoin('g.services', 'serv')
-                ->andWhere('serv.id IN (:services)')
-                ->setParameter('services', $criteria['services']);
+                ->andWhere('serv.id IN (:servicesIds)')
+                ->setParameter('servicesIds', $serviceIds);
         }
     
-        // if (!empty($criteria['equipment'])) {
-        //     $queryBuilder->leftJoin('g.equipment', 'equip')
-        //         ->andWhere('equip.id IN (:equipment)')
-        //         ->setParameter('equipment', $criteria['equipment']);
-        // }
-    
-        // if (!empty($criteria['features'])) {
-        //     $queryBuilder->leftJoin('g.features', 'feat')
-        //         ->andWhere('feat.id IN (:features)')
-        //         ->setParameter('features', $criteria['features']);
-        // }
+         if (!empty($criteria['equipment'])) {
+            
+            // Extract the IDs from the ArrayCollection of Equipment objects
+            $equipmentIds = array_map(function ($equipment) {
+                return $equipment->getId(); // Assuming the Equipment entity has a getId() method
+            }, $criteria['equipment']->toArray());
+
+                        $queryBuilder->leftJoin('g.equipment', 'equip')
+                            ->andWhere('equip.id IN (:equipmentIds)')
+                            ->setParameter('equipmentIds', $equipmentIds);
+                    }
+              
         
-         return $queryBuilder->getQuery()->getResult();
+                    
+    return $queryBuilder->getQuery()->getResult();
         
     }
 

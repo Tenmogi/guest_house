@@ -13,16 +13,18 @@
         {% endblock %}
     </head>
     <body>
+    <div id="page-container">
         {% block navbar %}
         {% include "partials/header.html.twig" %}
         {% endblock %}
-
+<div id="content-wrap">
             {% block body %}
             
             {% endblock %}
-
+</div>
         {% block footer %} 
         {% include "partials/footer.html.twig" %}
         {% endblock %}
+        </div>
     </body>
 </html>

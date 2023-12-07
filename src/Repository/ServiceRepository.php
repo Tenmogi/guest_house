@@ -30,6 +30,20 @@ class ServiceRepository extends ServiceEntityRepository
         ->getResult();
 }
 
+public function findIdsByNames(array $names)
+{
+    $queryBuilder = $this->createQueryBuilder('s')
+        ->select('s.id')
+        ->where('s.name IN (:names)')
+        ->setParameter('names', $names);
+
+    $results = $queryBuilder->getQuery()->getResult();
+
+    $ids = array_column($results, 'id');
+
+    return $ids;
+}
+
 //    /**
 //     * @return Service[] Returns an array of Service objects
 //     */
